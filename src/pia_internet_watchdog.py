@@ -5,10 +5,12 @@ import sys
 import logging
 import signal
 import sys
+from requests import get
 
-TEST_URL = "www.google.com"
+TEST_URL = 'www.google.com'
 PROCESSES_TO_KILL = ['pia', 'openvpn']
 PROCESSES_TO_RUN = ['C:\\Program Files\\pia_manager\\pia_manager']
+FETCH_IP_URL = 'http://api.ipify.org'
 
 class ProcList():
     def __init__(self, test_mode=False):
@@ -65,7 +67,8 @@ class ProcList():
         self.print_and_log_message('PIA Internet WatchDog started!')
         while True:
             if self.internet_connected():
-                self.print_and_log_message('Internet Seems to be connected. Checking again in 1 minute...', print_to_console=False)
+                ip = self.get_ip_address()
+                self.print_and_log_message('Internet Seems to be connected. External IP: %s. Checking again in 1 minute...' % ip, print_to_console=False)
                 time.sleep(60)
             else:
                 self.print_and_log_message('Internet not responding, seems to be disconnected. Restarting apps...')
@@ -100,6 +103,10 @@ class ProcList():
     def signal_handler(self, signal, frame):
         self.print_and_log_message('PIA Internet WatchDog finished!')
         sys.exit(0)
+
+    def get_ip_address(self):
+        ip = get(FETCH_IP_URL).text
+        return ip
 
 if __name__ == "__main__":
     main = ProcList()
