@@ -1,2 +1,2 @@
 # PIA Internet Watchdog
-Watchdog to monitor if internet is working, if not, restart PIA application.
+WatchDog to monitor if internet is working, if not, restart PIA application.
