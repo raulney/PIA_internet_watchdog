@@ -3,6 +3,8 @@ import socket
 import time
 import sys
 import logging
+import signal
+import sys
 
 TEST_URL = "www.google.com"
 PROCESSES_TO_KILL = ['pia', 'openvpn']
@@ -11,6 +13,7 @@ PROCESSES_TO_RUN = ['C:\\Program Files\\pia_manager\\pia_manager']
 class ProcList():
     def __init__(self, test_mode=False):
         self.test_mode = test_mode
+        signal.signal(signal.SIGINT, self.signal_handler)
         self.init_logger()
         self.init_health_check()
 
@@ -59,7 +62,7 @@ class ProcList():
             raise
 
     def init_health_check(self):
-        self.print_and_log_message('Internet health check started!')
+        self.print_and_log_message('PIA Internet WatchDog started!')
         while True:
             if self.internet_connected():
                 self.print_and_log_message('Internet Seems to be connected. Checking again in 1 minute...', print_to_console=False)
@@ -93,6 +96,10 @@ class ProcList():
                             datefmt='%d/%m/%Y %H:%M:%S',
                             level=logging.DEBUG)
         self.logger = logging.getLogger('pia_internet_watchdog')
+
+    def signal_handler(self, signal, frame):
+        self.print_and_log_message('PIA Internet WatchDog finished!')
+        sys.exit(0)
 
 if __name__ == "__main__":
     main = ProcList()
