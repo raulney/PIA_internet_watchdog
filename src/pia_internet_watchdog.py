@@ -45,7 +45,7 @@ class ProcList():
     def internet_connected(self):
         try:
             host = socket.gethostbyname(TEST_URL)
-            s = socket.create_connection((host, 80), 2)
+            s = socket.create_connection((host, 80), 20)
             return True
         except Exception as e:
             pass
