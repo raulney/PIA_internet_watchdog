@@ -22,7 +22,7 @@ class ProcList():
                 p = psutil.Process(pid)
                 procs.append(p)
             except:
-                print self.print_and_log_message('Error getting pid #%s information' % pid)
+                print self.print_and_log_message('Error getting pid #%s information' % pid, log_level='ERROR')
         return procs
 
     def get_process(self, proc_name):
@@ -59,7 +59,7 @@ class ProcList():
             raise
 
     def init_health_check(self):
-        self.print_and_log_message('Internet health check started! The logs only show errors if any.')
+        self.print_and_log_message('Internet health check started!')
         while True:
             if self.internet_connected():
                 self.print_and_log_message('Internet Seems to be connected. Checking again in 1 minute...', print_to_console=False)
