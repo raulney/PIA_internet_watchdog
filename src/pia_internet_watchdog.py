@@ -105,7 +105,11 @@ class ProcList():
         sys.exit(0)
 
     def get_ip_address(self):
-        ip = get(FETCH_IP_URL).text
+        ip = "N/A"
+        try:
+            ip = get(FETCH_IP_URL).text
+        except Exception as e:
+            self.print_and_log_message('Could not retrieve current IP Address', log_level='ERROR', print_to_console=False)
         return ip
 
 if __name__ == "__main__":
