@@ -45,7 +45,7 @@ class ProcList():
                 proc.terminate()
                 self.print_and_log_message('Killing Process: %s pid: %s' % proc.name(), proc.pid)
             except Exception as e:
-                print e
+                self.print_and_log_message(e, log_level='ERROR')
 
     def internet_connected(self):
         try:
@@ -61,7 +61,7 @@ class ProcList():
             proc = psutil.Popen(proc_name)
             self.print_and_log_message('Running Process: %s pid: %s' % proc.name(), proc.pid)
         except Exception as e:
-            print e
+            self.print_and_log_message(e, log_level='ERROR')
 
     def init_health_check(self):
         self.print_and_log_message('PIA Internet WatchDog started!')
